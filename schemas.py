@@ -12,7 +12,7 @@ Model name is converted to lowercase for the collection name:
 """
 
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import Optional, List
 
 # Example schemas (replace with your own):
 
@@ -40,6 +40,16 @@ class Product(BaseModel):
 
 # Add your own schemas here:
 # --------------------------------------------------
+
+class KnowledgeItem(BaseModel):
+    """
+    Knowledge items that power chat assistants
+    Collection name: "knowledgeitem" (lowercase of class name)
+    """
+    title: str = Field(..., min_length=2, max_length=120, description="Short title for the knowledge snippet")
+    content: str = Field(..., min_length=10, description="The content the assistant can use as context")
+    tags: Optional[List[str]] = Field(default=None, description="Optional tags for filtering and organization")
+    source: Optional[str] = Field(default=None, description="Optional source or URL reference")
 
 # Note: The Flames database viewer will automatically:
 # 1. Read these schemas from GET /schema endpoint
